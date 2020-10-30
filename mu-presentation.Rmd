@@ -83,7 +83,7 @@ class:inverse
 
 # Average Temperature Comparison
 
-```{r avg,echo=FALSE,fig.height=4,fig.width=6,fig.align='center'}
+```{r avg,echo=FALSE,fig.height=3,fig.width=7,fig.align='center'}
 ggplot(avg_weather,aes(
   x = reorder(description,avg),
   y = avg,
