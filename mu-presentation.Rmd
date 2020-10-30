@@ -14,107 +14,120 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 ---
+class:inverse
 
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 ```
 
-???
+# Introduction
 
-Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharingan_triple.svg)
+The aim of this analysis will seek to understand climate sensor data from Melbourne City Council. The datasets contain measurements obtained from November 2019 up until now, on things like humidity, temperature, and air quality from different locations around the city.
 
----
-class: center, middle
+<span style="color:yellow">**Question of Interest**: Is there evidence of a microclimate within Melbourne, that is, are there noticeable differences in temperature across the city?</span>
 
-# xaringan
-
-### /ʃaː.'riŋ.ɡan/
-
----
-class: inverse, center, middle
-
-# Get Started
+The question revolves around the presumption that there might be significant temperature differences even with locations that are in close proximity. This analysis tries to verify the correctness of this presumption.
 
 ---
 
-# Hello World
+# Data Wrangling
 
-Install the **xaringan** package from [Github](https://github.com/yihui/xaringan):
-
-```{r eval=FALSE, tidy=FALSE}
-devtools::install_github("yihui/xaringan")
+```{r libraries, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = FALSE, warning = FALSE)
+library(tidyverse)
+library(kableExtra)
+library(leaflet)
+library(lubridate)
+library(viridis)
 ```
 
---
+```{r ReadData , include=FALSE}
+locations <- read.csv(here::here("/data/Microclimate_Sensor_Locations.csv"))
+readings <- read.csv(here::here("/data/Microclimate_Sensor_Readings.csv")) %>%
+  filter(site_id == c("arc1048", "arc1047", "arc1046", "arc1045", "arc1050"))
+```
 
-You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rstudio/), but you do not have to.
 
-- Create a new R Markdown document from the menu `File -> New File -> R Markdown -> From Template -> Ninja Presentation`;<sup>1</sup>
+```{r Wrangle}
+data <- left_join(readings, locations, by = "site_id") %>% select(-id, -location, -type, -last_data) %>%
+  filter(units == "C")
 
---
+weather <- data %>% group_by(site_id, sensor_id, local_time, description, latitude, longitude) %>%
+  summarise(summary = sum(value)) %>% na.omit() 
 
-- Click the `Knit` button to compile it;
+avg_weather <- weather %>% group_by(description) %>% summarise(avg = mean(summary))
 
---
+selected_date <- weather %>% separate(col = local_time,into = c("date","time"), sep = " ") %>% separate(col = time, into = c("hour","mm:ss"),sep = ":") %>% filter(date %in% c("2019/12/20", "2020/06/05"))
+```
 
-- or use the [RStudio Addin](https://rstudio.github.io/rstudioaddins/)<sup>2</sup> "Infinite Moon Reader" to live preview the slides (every time you update and save the Rmd document, the slides will be automatically reloaded in RStudio Viewer.
+- Since the question of interest is around temperature measurements only, we have filtered the data with temperature readings and left joined it with the location dataset.
 
-.footnote[
-[1] 中文用户请看[这份教程](https://slides.yihui.org/xaringan/zh-CN.html)
-
-[2] See [#2](https://github.com/yihui/xaringan/issues/2) if you do not see the template or addin in RStudio.
-]
-
----
-background-image: url(`r xaringan:::karl`)
-background-position: 50% 50%
-class: center, bottom, inverse
-
-# You only live once!
-
+- As our approach tries to answer this question through the comparison of temperatures across the five sensor locations and for particular time of day, it was necessary to calculate the average temperature and separate the `local_time` column into `date`, `hour`, and `mm::ss`
 ---
 
-# Hello Ninja
+# Average Temperature Comparision
 
-As a presentation ninja, you certainly should not be satisfied by the "Hello World" example. You need to understand more about two things:
+```{r avg,echo=FALSE,fig.height=3,fig.align='center'}
+ggplot(avg_weather,aes(
+  x = reorder(description,avg),
+  y = avg,
+  fill = description
+)) +
+  geom_col()+
+  geom_text(label = round(avg_weather$avg,2), hjust = 1.5)+ 
+  coord_flip()+
+  theme(axis.text.y = element_blank())+
+  labs(x = "Average Temp(C)", y = "Sensor Location", title= "Average temperatures across Melbourne",fill = "Sensor Location")
 
-1. The [remark.js](https://remarkjs.com) library;
+```
 
-1. The **xaringan** package;
+- The average temperatures recorded ranges from `r min(weather$local_time)` till `r max(weather$local_time)`.
 
-Basically **xaringan** injected the chakra of R Markdown (minus Pandoc) into **remark.js**. The slides are rendered by remark.js in the web browser, and the Markdown source needed by remark.js is generated from R Markdown (**knitr**).
+- From the bar plot, the maximum average temperature is `r max(avg_weather$avg)` at Between 87 and 89 Grattan Street, Carlton.
 
----
+- And the minimum average temperature calculated is `r min(avg_weather$avg)` at 3/121 Grattan Street, Carlton.
 
-# remark.js
-
-You can see an introduction of remark.js from [its homepage](https://remarkjs.com). You should read the [remark.js Wiki](https://github.com/gnab/remark/wiki) at least once to know how to
-
-- create a new slide (Markdown syntax<sup>*</sup> and slide properties);
-
-- format a slide (e.g. text alignment);
-
-- configure the slideshow;
-
-- and use the presentation (keyboard shortcuts).
-
-It is important to be familiar with remark.js before you can understand the options in **xaringan**.
-
-.footnote[[*] It is different with Pandoc's Markdown! It is limited but should be enough for presentation purposes. Come on... You do not need a slide for the Table of Contents! Well, the Markdown support in remark.js [may be improved](https://github.com/gnab/remark/issues/142) in the future.]
+- The temperature differences between the other sensor locations are ~0.5 
 
 ---
-background-image: url(`r xaringan:::karl`)
-background-size: cover
-class: center, bottom, inverse
+# 
 
-# I was so happy to have discovered remark.js!
+```{r leafmap,echo=FALSE}
+leaflet(locations) %>% addTiles() %>% addMarkers(~longitude, ~latitude, popup = paste("Location:", locations$description, "<br>",
+                          "Average Temperature:", round(avg_weather$avg,2)),radius = avg_weather$avg)
+```
+
 
 ---
-class: inverse, middle, center
+#
 
-# Using xaringan
+```{r monthly,echo=FALSE}
+weather$local_time <- as_datetime(weather$local_time) 
+ggplot(weather, aes(
+  x= local_time,
+  y = summary,
+  color = summary
+)) +
+  geom_point() +
+  scale_color_viridis_c(option = "B")+
+  facet_grid(~ description) +
+  theme_dark()
+```
 
+---
+#
+
+```{r hourly,echo=FALSE}
+ggplot(selected_date, aes(
+  x= hour,
+  y = summary,
+  color = summary
+)) +
+  geom_point() +
+  scale_color_viridis_c(option = "B")+
+  facet_wrap(~ description) 
+```
 ---
 
 # xaringan

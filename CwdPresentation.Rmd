@@ -29,13 +29,12 @@ data <- left_join(readings, locations, by = "site_id") %>% select(-id, -location
 weather <- data %>% group_by(site_id, sensor_id, local_time, description, latitude, longitude) %>%
   summarise(summary = sum(value)) %>% na.omit() 
 
-selected_date <- weather %>% separate(col = local_time,into = c("date","time"), sep = " ") %>% separate(col = time, into = c("hour","mm:ss"),sep = ":") %>% filter(date == "2019-12-20" |date == "2020-06-05")
+selected_date <- weather %>% separate(col = local_time,into = c("date","time"), sep = " ") %>% separate(col = time, into = c("hour","mm:ss"),sep = ":") %>% filter(date %in% c("2019/12/20", "2020/06/05"))
 ```
 
 
 
 ```{r}
-avg_weather <- weather %>% group_by(description) %>% summarise(avg = mean(summary))
 ggplot(avg_weather,aes(
   x = reorder(description,avg),
   y = avg,
@@ -50,7 +49,7 @@ ggplot(avg_weather,aes(
 ```
 
 ```{r}
-leaflet(locations) %>% addTiles() %>% addCircleMarkers(~longitude, ~latitude, popup = paste("Location:", locations$description, "<br>",
+leaflet(locations) %>% addTiles() %>% addMarkers(~longitude, ~latitude, popup = paste("Location:", locations$description, "<br>",
                           "Average Temperature:", round(avg_weather$avg,2)),radius = avg_weather$avg)
 ```
 
