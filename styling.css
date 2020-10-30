@@ -1,0 +1,16 @@
+.title-slide {
+	background-color: #fff;
+  background-image: url(https://www.monash.edu/__data/assets/image/0007/1021399/geometric-gradient-blue-white-pink-banner.jpg);
+	background-position: center top 20px;
+	background-size: 100%;
+	border-bottom: 0px solid  #522D80;
+	box-shadow:  0 55px 0 #fff;
+}
+
+.remark-slide-content h2 {
+    font-size: 40px;
+}
+
+element.style{
+    width: 750px;
+}

@@ -5,8 +5,8 @@
     <meta charset="utf-8" />
     <meta name="author" content="Rahul Bharadwaj Mysore Venkatesh" />
     <meta name="author" content="Varsha Ujjinni Vijay Kumar" />
-    <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+    <script src="libs/anchor-sections/anchor-sections.js"></script>
     <script src="libs/htmlwidgets/htmlwidgets.js"></script>
     <script src="libs/jquery/jquery.min.js"></script>
     <link href="libs/leaflet/leaflet.css" rel="stylesheet" />
@@ -16,6 +16,10 @@
     <script src="libs/Proj4Leaflet/proj4leaflet.js"></script>
     <link href="libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
     <script src="libs/leaflet-binding/leaflet.js"></script>
+    <link href="libs/leaflet-awesomemarkers/leaflet.awesome-markers.css" rel="stylesheet" />
+    <script src="libs/leaflet-awesomemarkers/leaflet.awesome-markers.min.js"></script>
+    <link href="libs/fontawesome/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styling.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -30,8 +34,7 @@ class: center, middle, inverse, title-slide
 
 ---
 
-class:inverse
-
+background-image: url(https://cms.hostelworld.com/hwblog/wp-content/uploads/sites/2/2017/11/Sydney-vs-Melbourne-@miss_kamw-mel-weather.jpg)
 
 
 
@@ -39,10 +42,18 @@ class:inverse
 
 The aim of this analysis will seek to understand climate sensor data from Melbourne City Council. The datasets contain measurements obtained from November 2019 up until now, on things like humidity, temperature, and air quality from different locations around the city.
 
-&lt;span style="color:yellow"&gt;**Question of Interest**: Is there evidence of a microclimate within Melbourne, that is, are there noticeable differences in temperature across the city?&lt;/span&gt;
+--
+
+&lt;span style="color:brown"&gt;**Question of Interest**: Is there evidence of a microclimate within Melbourne, that is, are there noticeable differences in temperature across the city?&lt;/span&gt;
+
+--
 
 The question revolves around the presumption that there might be significant temperature differences even with locations that are in close proximity. This analysis tries to verify the correctness of this presumption.
 
+
+ 
+
+  Image credits:[Melbourne-Weather](https://www.hostelworld.com/blog/sydney-vs-melbourne/)
 ---
 class:inverse
 
@@ -71,6 +82,8 @@ selected_date &lt;- weather %&gt;%
 
 - Since the question of interest is around temperature measurements only, we have filtered the data with temperature readings and left joined it with the location dataset.
 
+--
+
 - As our approach tries to answer this question through the comparison of temperatures across the five sensor locations and for particular time of day, it was necessary to calculate the average temperature and separate the `local_time` column into `date`, `hour`, and `mm::ss`
 ---
 class:inverse
@@ -79,32 +92,37 @@ class:inverse
 
 &lt;img src="mu-presentation_files/figure-html/avg-1.png" style="display: block; margin: auto;" /&gt;
 
+--
+
 - The average temperatures recorded ranges from 2019/11/15 01:00:00 PM till 2020/10/30 12:45:02 PM.
 
-- From the bar plot, the maximum average temperature is 16.221728 at Between 87 and 89 Grattan Street, Carlton.
+- From the bar plot, the maximum average temperature is 16.221728 °C at Between 87 and 89 Grattan Street, Carlton.
 
-- And the minimum average temperature calculated is 14.7766671 at 3/121 Grattan Street, Carlton.
+- And the minimum average temperature calculated is 14.7766671 °C at 3/121 Grattan Street, Carlton.
 
-- The temperature differences between the other sensor locations are ~0.5 
+- The temperature differences between the other sensor locations are ~0.5 °C. 
 
 ---
 class:inverse
 
 # Location of the Sensors
 
-<div id="htmlwidget-5f6b9c12f7e0bae485c5" style="width:500px;height:200px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5f6b9c12f7e0bae485c5">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[-37.800575,-37.8023,-37.800524,-37.800793,-37.800629],[144.964635,144.960923,144.964122,144.966492,144.965052],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 15.3","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 14.78","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 16.22","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 15.46","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 15.19"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-352ffb27f6bc0b77bbc5" style="width:500px;height:200px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-352ffb27f6bc0b77bbc5">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[-37.800575,-37.8023,-37.800524,-37.800793,-37.800629],[144.964635,144.960923,144.964122,144.966492,144.965052],{"icon":"cloud","markerColor":"yellow","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 15.3","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 14.78","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 16.22","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 15.46","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 15.19"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
 
 - It is evident from the map that the sensors are located very close to each other/close in proximity. The maximum temperature at the Corner of Swanston and Grattan Streets, Carlton is very close to other places but the temperature varies quite significantly keeping in mind how close they are on the same street.
 
-- The Corner of Pelham and Leicester Streets, Carlton which is just a few blocks away has the minimum temperature of the lot and has a difference of almost 1.5 degrees C from Corner of Swanston and Grattan Streets, Carlton. This might be due to the University Square and Lincoln Square around this area.
+--
+
+- The Corner of Pelham and Leicester Streets, Carlton which is just a few blocks away has the minimum temperature of the lot and has a difference of almost 1.5 °C from Corner of Swanston and Grattan Streets, Carlton. This might be due to the University Square and Lincoln Square around this area.
 
 ---
-class:inverse
 
 # Temperature over time
 
 &lt;img src="mu-presentation_files/figure-html/monthly-1.png" style="display: block; margin: auto;" /&gt;
+
+--
 
 - We can observe that there is similarity in temperature across the sensors. Only the sensor at Pelham St has a significant variance from the Corner at Grattan St and other sensors on Grattan St. Pelam St is cooler than Grattan St in general during all times.
 
@@ -115,15 +133,24 @@ class:inverse
 
 - The temperatures across different sensor locations in the data vary and we can observe a range of averages even across the same Street.
 
+--
+
 - The maximum average temperature is observed at the Corner of Grattan St while the minimum average temperature is observed at the Corner of Pelham St. These two streets are not very far away. They are only a few blocks away and we can still observe significant changes.
+
+--
 
 - Keeping in mind the different temperatures within such close proximity, it can be safely assumed that temperatures vary significantly within Melbourne.
 
+--
+
 - Melbourne as a whole cannot be classified to have a certain type of climate all throughout consistently. There is a presence of microclimate within Melbourne.
+
+--
 
 - In simpler words, there's noticeable change in temperatures across the City of Melbourne. The average temperature at one location within close proximity to another can have noticeable differences in climate.
 ---
 class: center, middle, inverse
+![](https://media.giphy.com/media/QRhtqYeEywJI4/giphy.gif)&lt;!-- --&gt;
 
 # Thanks!
 
@@ -131,7 +158,10 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 
 R Packages used:
 [tidyverse](https://doi.org/10.21105/joss.01686) |
-[kableExtra](https://CRAN.R-project.org/package=kableExtra) | [leaflet](https://CRAN.R-project.org/package=leaflet) | [lubridate](http://www.jstatsoft.org/v40/i03/) | [viridis](https://CRAN.R-project.org/package=viridis)
+[kableExtra](https://CRAN.R-project.org/package=kableExtra) | [leaflet](https://CRAN.R-project.org/package=leaflet) | [lubridate](http://www.jstatsoft.org/v40/i03/) | [viridis](https://CRAN.R-project.org/package=viridis) 
+
+GIF credits - [giphy website](https://giphy.com/) |
+Image credits: [Monash](https://www.monash.edu/academicpromotion)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -3,19 +3,19 @@ title: "ETC5523 CWD Presentation by team 'mu'"
 subtitle: "Microclimate Patterns across Melbourne"
 author:
   - Rahul Bharadwaj Mysore Venkatesh
-  - Varsha Ujjinni Vijay Kumar
-institute: "Monash University"
+  - Varsha Ujjinni Vijay Kumar 
+institute: Monash University
 date: "2020/11/04"
 output:
   xaringan::moon_reader:
+    css: ["styling.css"]
     lib_dir: libs
     nature:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
 ---
-class:inverse
-
+background-image: url(https://cms.hostelworld.com/hwblog/wp-content/uploads/sites/2/2017/11/Sydney-vs-Melbourne-@miss_kamw-mel-weather.jpg)
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
@@ -25,10 +25,18 @@ options(htmltools.dir.version = FALSE)
 
 The aim of this analysis will seek to understand climate sensor data from Melbourne City Council. The datasets contain measurements obtained from November 2019 up until now, on things like humidity, temperature, and air quality from different locations around the city.
 
-<span style="color:yellow">**Question of Interest**: Is there evidence of a microclimate within Melbourne, that is, are there noticeable differences in temperature across the city?</span>
+--
+
+<span style="color:brown">**Question of Interest**: Is there evidence of a microclimate within Melbourne, that is, are there noticeable differences in temperature across the city?</span>
+
+--
 
 The question revolves around the presumption that there might be significant temperature differences even with locations that are in close proximity. This analysis tries to verify the correctness of this presumption.
 
+
+ 
+
+  Image credits:[Melbourne-Weather](https://www.hostelworld.com/blog/sydney-vs-melbourne/)
 ---
 class:inverse
 
@@ -67,13 +75,15 @@ selected_date <- weather %>%
 
 - Since the question of interest is around temperature measurements only, we have filtered the data with temperature readings and left joined it with the location dataset.
 
+--
+
 - As our approach tries to answer this question through the comparison of temperatures across the five sensor locations and for particular time of day, it was necessary to calculate the average temperature and separate the `local_time` column into `date`, `hour`, and `mm::ss`
 ---
 class:inverse
 
 # Average Temperature Comparison
 
-```{r avg,echo=FALSE,fig.height=3,fig.align='center'}
+```{r avg,echo=FALSE,fig.height=4,fig.width=6,fig.align='center'}
 ggplot(avg_weather,aes(
   x = reorder(description,avg),
   y = avg,
@@ -83,40 +93,49 @@ ggplot(avg_weather,aes(
   geom_text(label = round(avg_weather$avg,2), hjust = 1.5)+ 
   coord_flip()+
   theme(axis.text.y = element_blank())+
-  labs(x = "Average Temp(C)", y = "Sensor Location", title= "Average temperatures across Melbourne",fill = "Sensor Location")
+  labs(x = "Average Temperature(°C)", y = "Sensor Location", title= "Average temperatures across Melbourne(°C)",fill = "Sensor Location")
 
 ```
 
+--
+
 - The average temperatures recorded ranges from `r min(weather$local_time)` till `r max(weather$local_time)`.
 
-- From the bar plot, the maximum average temperature is `r max(avg_weather$avg)` at Between 87 and 89 Grattan Street, Carlton.
+- From the bar plot, the maximum average temperature is `r max(avg_weather$avg)` °C at Between 87 and 89 Grattan Street, Carlton.
 
-- And the minimum average temperature calculated is `r min(avg_weather$avg)` at 3/121 Grattan Street, Carlton.
+- And the minimum average temperature calculated is `r min(avg_weather$avg)` °C at 3/121 Grattan Street, Carlton.
 
-- The temperature differences between the other sensor locations are ~0.5 
+- The temperature differences between the other sensor locations are ~0.5 °C. 
 
 ---
 class:inverse
 
 # Location of the Sensors
 
-```{r leafmap, echo=FALSE, out.height=200, out.width=500}
+```{r leafmap, echo=FALSE, out.height=200, out.width=500,fig.align='center'}
+icons <- awesomeIcons(
+  icon = 'cloud',
+  iconColor = 'white',
+  library = 'fa',
+  markerColor = 'yellow'
+)
 avgloc <- left_join(avg_weather, locations, by = "description")
 leaflet(locations) %>% addTiles() %>%
-  addMarkers(~longitude, ~latitude, popup = paste("Location:", avgloc$description, "<br>",
+  addAwesomeMarkers(icon = icons, ~longitude, ~latitude, popup = paste("Location:", avgloc$description, "<br>",
                                                   "Average Temperature:", round(avgloc$avg,2)))
 ```
 
 - It is evident from the map that the sensors are located very close to each other/close in proximity. The maximum temperature at the Corner of Swanston and Grattan Streets, Carlton is very close to other places but the temperature varies quite significantly keeping in mind how close they are on the same street.
 
-- The Corner of Pelham and Leicester Streets, Carlton which is just a few blocks away has the minimum temperature of the lot and has a difference of almost 1.5 degrees C from Corner of Swanston and Grattan Streets, Carlton. This might be due to the University Square and Lincoln Square around this area.
+--
+
+- The Corner of Pelham and Leicester Streets, Carlton which is just a few blocks away has the minimum temperature of the lot and has a difference of almost 1.5 °C from Corner of Swanston and Grattan Streets, Carlton. This might be due to the University Square and Lincoln Square around this area.
 
 ---
-class:inverse
 
 # Temperature over time
 
-```{r monthly,echo=FALSE, fig.height=8, fig.width=15, fig.align='center'}
+```{r monthly,echo=FALSE, fig.height=5, fig.width=10, fig.align='center'}
 weather$local_time <- as_datetime(weather$local_time) 
 ggplot(weather, aes(
   x= local_time,
@@ -124,10 +143,14 @@ ggplot(weather, aes(
   color = temp
 )) +
   geom_point() +
+  labs(x = "Date", y = "Temperature(°C)",color = "Temperature(°C)")+
+  theme_dark()+
   scale_color_viridis_c(option = "B")+
-  facet_grid(~ description) + 
-  theme_dark()
+  facet_grid(.~ description) + 
+  theme(axis.text.x = element_text(angle = 90))
 ```
+
+--
 
 - We can observe that there is similarity in temperature across the sensors. Only the sensor at Pelham St has a significant variance from the Corner at Grattan St and other sensors on Grattan St. Pelam St is cooler than Grattan St in general during all times.
 
@@ -138,15 +161,26 @@ class:inverse
 
 - The temperatures across different sensor locations in the data vary and we can observe a range of averages even across the same Street.
 
+--
+
 - The maximum average temperature is observed at the Corner of Grattan St while the minimum average temperature is observed at the Corner of Pelham St. These two streets are not very far away. They are only a few blocks away and we can still observe significant changes.
+
+--
 
 - Keeping in mind the different temperatures within such close proximity, it can be safely assumed that temperatures vary significantly within Melbourne.
 
+--
+
 - Melbourne as a whole cannot be classified to have a certain type of climate all throughout consistently. There is a presence of microclimate within Melbourne.
+
+--
 
 - In simpler words, there's noticeable change in temperatures across the City of Melbourne. The average temperature at one location within close proximity to another can have noticeable differences in climate.
 ---
 class: center, middle, inverse
+```{r gif,echo=FALSE,height = 2}
+knitr::include_graphics("https://media.giphy.com/media/QRhtqYeEywJI4/giphy.gif")
+```
 
 # Thanks!
 
@@ -155,3 +189,6 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 R Packages used:
 [tidyverse](https://doi.org/10.21105/joss.01686) |
 [kableExtra](https://CRAN.R-project.org/package=kableExtra) | [leaflet](https://CRAN.R-project.org/package=leaflet) | [lubridate](http://www.jstatsoft.org/v40/i03/) | [viridis](https://CRAN.R-project.org/package=viridis) 
+
+GIF credits - [giphy website](https://giphy.com/) |
+Image credits: [Monash](https://www.monash.edu/academicpromotion)
