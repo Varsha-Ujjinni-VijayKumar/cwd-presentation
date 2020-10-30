@@ -1,0 +1,35 @@
+---
+title: "CWD Presentation"
+author: "Rahul Bharadwaj Mysore Venkatesh"
+date: "30/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = FALSE, warning = FALSE)
+library(tidyverse)
+library(kableExtra)
+library(leaflet)
+```
+
+
+```{r ReadData}
+locations <- read.csv(here::here("/data/Microclimate_Sensor_Locations.csv"))
+readings <- read.csv(here::here("/data/Microclimate_Sensor_Readings.csv")) %>%
+  filter(site_id == c("arc1048", "arc1047", "arc1046", "arc1045", "arc1050"))
+```
+
+
+```{r Wrangle}
+data <- left_join(readings, locations, by = "site_id") %>% select(-id, -location, -type, -last_data) %>%
+  filter(units == "C")
+
+weather <- data %>% group_by(site_id, sensor_id, local_time, description, latitude, longitude) %>%
+  summarise(summary = sum(value))
+```
+
+```{r}
+#leaflet(weather) %>% addTiles() %>% addMarkers(~longitude, ~latitude, popup = ~summary)
+```
+
+
