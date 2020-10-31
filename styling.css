@@ -14,3 +14,8 @@
 element.style{
     width: 750px;
 }
+
+.hljs-github .hljs{
+    height: 200px;
+    overflow-y: auto
+}
