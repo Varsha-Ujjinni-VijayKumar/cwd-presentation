@@ -27,7 +27,7 @@ The aim of this analysis will seek to understand climate sensor data from Melbou
 
 --
 
-<span style="color:brown">**Question of Interest**: Is there evidence of a microclimate within Melbourne, that is, are there noticeable differences in temperature across the city?</span>
+<span style="color:red">**Question of Interest**: Is there evidence of a microclimate within Melbourne, that is, are there noticeable differences in temperature across the city?</span>
 
 --
 
@@ -36,7 +36,7 @@ The question revolves around the presumption that there might be significant tem
 
  
 
-  Image credits:[Melbourne-Weather](https://www.hostelworld.com/blog/sydney-vs-melbourne/)
+<div align="right"> Image Credits: Melbourne-Weather </div>
 ---
 class:inverse
 
@@ -81,7 +81,7 @@ selected_date <- weather %>%
 ---
 class:inverse
 
-# Average Temperature Comparison
+# Average Temp Comparison
 
 ```{r avg,echo=FALSE,fig.height=3,fig.width=7,fig.align='center'}
 ggplot(avg_weather,aes(
@@ -119,17 +119,17 @@ icons <- awesomeIcons(
   library = 'fa',
   markerColor = 'yellow'
 )
-avgloc <- left_join(avg_weather, locations, by = "description")
+avgloc <- left_join(locations, avg_weather, by = "description")
 leaflet(locations) %>% addTiles() %>%
   addAwesomeMarkers(icon = icons, ~longitude, ~latitude, popup = paste("Location:", avgloc$description, "<br>",
                                                   "Average Temperature:", round(avgloc$avg,2)))
 ```
 
-- It is evident from the map that the sensors are located very close to each other/close in proximity. The maximum temperature at the Corner of Swanston and Grattan Streets, Carlton is very close to other places but the temperature varies quite significantly keeping in mind how close they are on the same street.
+- It is evident from the map that the sensors are located very close to each other/close in proximity. The maximum temperature Between 87 and 89 Grattan Street, Carlton is very close to other places but the temperature varies quite significantly keeping in mind how close they are on the same street.
 
 --
 
-- The Corner of Pelham and Leicester Streets, Carlton which is just a few blocks away has the minimum temperature of the lot and has a difference of almost 1.5 °C from Corner of Swanston and Grattan Streets, Carlton. This might be due to the University Square and Lincoln Square around this area.
+- 3/121 Grattan Street, Carlton which is on the same street has the minimum temperature of the lot and has a difference of almost 1.5 °C from 87 and 89 Grattan Street, Carlton. This shows the presence of a microclimate on the same street. Two places that are closest to each other have the highest variance in average temperature throughout the year. 
 
 ---
 
@@ -152,7 +152,7 @@ ggplot(weather, aes(
 
 --
 
-- We can observe that there is similarity in temperature across the sensors. Only the sensor at Pelham St has a significant variance from the Corner at Grattan St and other sensors on Grattan St. Pelam St is cooler than Grattan St in general during all times.
+- We can observe that there is similarity in temperature across the sensors. Only the sensor at 87 and 89 Grattan Street, Carlton has a significant variance from 3/121 Grattan Street, Carlton and other sensors on Grattan St. and Pelam St have similar weather during all times.
 
 ---
 class:inverse
@@ -163,7 +163,7 @@ class:inverse
 
 --
 
-- The maximum average temperature is observed at the Corner of Grattan St while the minimum average temperature is observed at the Corner of Pelham St. These two streets are not very far away. They are only a few blocks away and we can still observe significant changes.
+- The maximum average temperature is observed at 87 and 89 Grattan Street, Carlton while the minimum average temperature is observed at 3/121 Grattan Street, Carlton. These two sesnsors are located on the same street (Grattan St). They are only a few blocks away and we can still observe significant changes in temperature.
 
 --
 
