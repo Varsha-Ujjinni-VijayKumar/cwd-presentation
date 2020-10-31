@@ -27,7 +27,7 @@ The aim of this analysis will seek to understand climate sensor data from Melbou
 
 --
 
-<span style="color:red">**Question of Interest**: Is there evidence of a microclimate within Melbourne, that is, are there noticeable differences in temperature across the city?</span>
+<span style="color:brown">**Question of Interest: Is there evidence of a microclimate within Melbourne, that is, are there noticeable differences in temperature across the city?**</span>
 
 --
 
