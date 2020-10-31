@@ -162,11 +162,11 @@ leaflet(day_change) %>% addTiles() %>%
 ```
 
 
-- Taking just one day in particular for showing evidence of microclimate is more promising. Hence day considered - **`r unique(day_date$date)`** and time considered is: **`r unique(day_date$hour)`**:**`r unique(day_date$mm)`**.
+- Taking just one day in particular for showing evidence of microclimate is more promising. Hence day considered - **`r unique(day_change$date)`** and time considered is: **`r unique(day_change$hour)`**:**`r unique(day_change$mm)`**.
 
 --
 
-- The highest average temperature recorded is `r max(day_date$temp)`°C at `Between 87 and 89 Grattan Street, Carlton` and the location which is nearest to it `3/121 Grattan Street, Carlton `, records the lowest average temperatures among the sensors with `r min(day_date$temp)`°C, even though it's on the same day and time.  
+- The highest average temperature recorded is `r max(day_change$avg_temp)`°C at `Between 87 and 89 Grattan Street, Carlton` and the location which is nearest to it `3/121 Grattan Street, Carlton `, records the lowest average temperatures among the sensors with `r min(day_change$avg_temp)`°C, even though it's on the same day and time.  
 
 ---
 # Temperature over time
