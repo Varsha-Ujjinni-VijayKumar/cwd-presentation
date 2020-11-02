@@ -5,8 +5,6 @@
     <meta charset="utf-8" />
     <meta name="author" content="Rahul Bharadwaj Mysore Venkatesh" />
     <meta name="author" content="Varsha Ujjinni Vijay Kumar" />
-    <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
-    <script src="libs/anchor-sections/anchor-sections.js"></script>
     <script src="libs/htmlwidgets/htmlwidgets.js"></script>
     <script src="libs/jquery/jquery.min.js"></script>
     <link href="libs/leaflet/leaflet.css" rel="stylesheet" />
@@ -111,7 +109,7 @@ class:inverse
 
 --
 
-- The average temperatures recorded ranges from 2019/11/15 01:00:00 PM till 2020/10/30 12:45:02 PM.
+- The average temperatures calculated ranges from 2019/11/15 01:00:00 PM till 2020/10/30 12:45:02 PM.
 
 - From the bar plot, the maximum average temperature is 16.221728 °C at Between 87 and 89 Grattan Street, Carlton.
 
@@ -124,28 +122,14 @@ class:inverse
 
 # Location of the Sensors
 
-<div id="htmlwidget-9693ca884ef001b6d4e9" style="width:700px;height:200px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9693ca884ef001b6d4e9">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[-37.800575,-37.8023,-37.800524,-37.800793,-37.800629],[144.964635,144.960923,144.964122,144.966492,144.965052],{"icon":"cloud","markerColor":"yellow","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 15.3 °C","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 15.46 °C","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 15.19 °C","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 16.22 °C","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 14.78 °C"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-54de81ed92b455edf5d2" style="width:700px;height:200px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-54de81ed92b455edf5d2">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[-37.800575,-37.8023,-37.800524,-37.800793,-37.800629],[144.964635,144.960923,144.964122,144.966492,144.965052],{"icon":"cloud","markerColor":"yellow","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 15.3 °C","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 15.46 °C","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 15.19 °C","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 16.22 °C","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 14.78 °C"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
 
 - It is evident from the map that the sensors are located very close to each other/close in proximity. The maximum temperature Between 87 and 89 Grattan Street, Carlton is very close to other places but the temperature varies quite significantly keeping in mind how close they are on the same street.
 
 --
 
 - 3/121 Grattan Street, Carlton which is on the same street has the minimum temperature of the lot and has a difference of almost 1.5 °C from 87 and 89 Grattan Street, Carlton. This shows the presence of a microclimate on the same street. Two places that are closest to each other have the highest variance in average temperature throughout the year. 
-
----
-
-# Temperature for a day
-
-<div id="htmlwidget-6f213cc0af39d40f8195" style="width:700px;height:200px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6f213cc0af39d40f8195">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[-37.800575,-37.800629,-37.800793,-37.8023,-37.800524],[144.964635,144.965052,144.966492,144.960923,144.964122],{"icon":"cloud","markerColor":"yellow","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 27.2 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 26.9 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 29.02 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 28.28 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 27.98 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
-
-
-- Taking just one day in particular for showing evidence of microclimate is more promising. Hence day considered - **2019/12/20** and time considered is: **01**:**15**.
-
---
-
-- The highest average temperature recorded is 29.025°C at `Between 87 and 89 Grattan Street, Carlton` and the location which is nearest to it `3/121 Grattan Street, Carlton `, records the lowest average temperatures among the sensors with 26.895°C, even though it's on the same day and time.  
 
 ---
 # Temperature over time
@@ -158,11 +142,30 @@ class:inverse
 
 ---
 
-# 
+# Temperature for a day
+
+<div id="htmlwidget-8b9d38ab86ebbdeb9cf3" style="width:700px;height:200px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8b9d38ab86ebbdeb9cf3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[-37.800575,-37.800629,-37.800793,-37.8023,-37.800524],[144.964635,144.965052,144.966492,144.960923,144.964122],{"icon":"cloud","markerColor":"yellow","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 27.2 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 26.9 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 29.02 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 28.28 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 27.98 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
+
+
+- Taking just one day in particular for showing evidence of microclimate is more promising. Hence day considered - **2019/12/20** and time considered is: **01**:**15**.
+
+--
+
+- The highest average temperature recorded is 29.025°C at `Between 87 and 89 Grattan Street, Carlton` and the location which is nearest to it `3/121 Grattan Street, Carlton `, records the lowest average temperatures among the sensors with 26.895°C, even though it's on the same day and time.  
+
+
+---
+
+# Temperature on 20 Dec 2019
+
+--
 
 &lt;img src="mu-presentation_files/figure-html/daily-point-1.png" style="display: block; margin: auto;" /&gt;
 
+--
 
+* The above plot shows the average temperature over a single day, 20 Dec 2019 for each of the 5 sensor locations. If there is noticeable change in temperature over the same hour of the day, it goes to show that some places have a significantly different weather compared to other locations. This points at microclimate patterns in different locations of Melbourne.
 
 ---
 

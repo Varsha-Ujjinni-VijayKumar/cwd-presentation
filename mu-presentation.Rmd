@@ -121,7 +121,7 @@ ggplot(avg_weather,aes(
 
 --
 
-- The average temperatures recorded ranges from `r min(weather$local_time)` till `r max(weather$local_time)`.
+- The average temperatures calculated ranges from `r min(weather$local_time)` till `r max(weather$local_time)`.
 
 - From the bar plot, the maximum average temperature is `r max(avg_weather$avg)` °C at Between 87 and 89 Grattan Street, Carlton.
 
@@ -158,6 +158,31 @@ leaflet(locations) %>%
 - 3/121 Grattan Street, Carlton which is on the same street has the minimum temperature of the lot and has a difference of almost 1.5 °C from 87 and 89 Grattan Street, Carlton. This shows the presence of a microclimate on the same street. Two places that are closest to each other have the highest variance in average temperature throughout the year. 
 
 ---
+# Temperature over time
+
+```{r monthly,echo=FALSE, fig.height=5, fig.width=10, fig.align='center'}
+weather$local_time <- as_datetime(weather$local_time) 
+ggplot(weather, aes(
+  x= local_time,
+  y = temp,
+  color = temp
+)) +
+  geom_point() +
+  labs(x = "Date", y = "Temperature(°C)",color = "Temperature(°C)")+
+  theme_dark()+
+  scale_color_viridis_c(option = "B")+
+  facet_grid(.~ description) + 
+  theme(axis.text.x = element_text(angle = 90), panel.background = element_rect(fill = "pink3",
+                                colour = "black",
+                                size = 0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=2))
+```
+
+--
+
+- We can observe that there is similarity in temperature across the sensors. Only the sensor at 87 and 89 Grattan Street, Carlton has a significant variance from 3/121 Grattan Street, Carlton and other sensors on Grattan St. and Pelam St have similar weather during all times.
+
+---
 
 # Temperature for a day
 
@@ -181,37 +206,15 @@ leaflet(day_change) %>% addTiles() %>%
 
 - The highest average temperature recorded is `r max(day_change$avg_temp)`°C at `Between 87 and 89 Grattan Street, Carlton` and the location which is nearest to it `3/121 Grattan Street, Carlton `, records the lowest average temperatures among the sensors with `r min(day_change$avg_temp)`°C, even though it's on the same day and time.  
 
----
-# Temperature over time
 
-```{r monthly,echo=FALSE, fig.height=5, fig.width=10, fig.align='center'}
-weather$local_time <- as_datetime(weather$local_time) 
-ggplot(weather, aes(
-  x= local_time,
-  y = temp,
-  color = temp
-)) +
-  geom_point() +
-  labs(x = "Date", y = "Temperature(°C)",color = "Temperature(°C)")+
-  theme_dark()+
-  scale_color_viridis_c(option = "B")+
-  facet_grid(.~ description) + 
-  theme(axis.text.x = element_text(angle = 90),panel.background = element_rect(fill = "pink",
-                                colour = "pink",
-                                size = 0.5, linetype = "solid"),
-        panel.border = element_rect(colour = "black", fill=NA, size=2))
-```
+---
+
+# Temperature on 20 Dec 2019
 
 --
 
-- We can observe that there is similarity in temperature across the sensors. Only the sensor at 87 and 89 Grattan Street, Carlton has a significant variance from 3/121 Grattan Street, Carlton and other sensors on Grattan St. and Pelam St have similar weather during all times.
-
----
-
-# 
-
-```{r daily-point,fig.height=4, fig.width=10, fig.align='center',echo=FALSE}
-grouped_date <- selected_date %>% 
+```{r daily-point,fig.height=5, fig.width=8, fig.align='center',echo=FALSE}
+grouped_date <- selected_date %>% filter(date == "2019/12/20") %>%
   select(description,hour,date,temp) %>%  
   group_by(hour,description,date) %>% 
   summarise(avg = mean(temp))
@@ -221,15 +224,16 @@ ggplot(grouped_date, aes(
   y = avg,
   color = avg
 )) +
-  geom_point() +
+  geom_point(size = 3) +
   labs(x = "Hour of the day", y = "Temperature(°C)",color = "Temperature(°C)")+
-  theme_dark()+
+  theme_gray()+
   scale_color_viridis_c(option = "B")+
-  facet_wrap(~ description,nrow = 5) + 
-  theme(axis.text.x = element_text(angle = 90))
+  facet_wrap(~ description, nrow = 5)
 ```
 
+--
 
+* The above plot shows the average temperature over a single day, 20 Dec 2019 for each of the 5 sensor locations. If there is noticeable change in temperature over the same hour of the day, it goes to show that some places have a significantly different weather compared to other locations. This points at microclimate patterns in different locations of Melbourne.
 
 ---
 
