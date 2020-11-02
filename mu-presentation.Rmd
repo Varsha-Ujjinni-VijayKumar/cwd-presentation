@@ -33,11 +33,9 @@ The aim of this analysis will seek to understand climate sensor data from Melbou
 
 The question revolves around the presumption that there might be significant temperature differences even with locations that are in close proximity. This analysis tries to verify the correctness of this presumption.
 
-
 ---
-class:inverse
 
-# Data Wrangling
+# Missing values 
 
 ```{r libraries, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,message = FALSE, warning = FALSE)
@@ -52,7 +50,21 @@ library(viridis)
 locations <- read.csv(here::here("/data/Microclimate_Sensor_Locations.csv"))
 readings <- read.csv(here::here("/data/Microclimate_Sensor_Readings.csv")) %>%
   filter(site_id == c("arc1048", "arc1047", "arc1046", "arc1045", "arc1050"))
+data <- left_join(readings, locations, by = "site_id") %>% select(-id, -location, -type, -last_data) %>%
+  filter(units == "C")
 ```
+
+
+```{r echo=FALSE,fig.height=5, fig.width=10, fig.align='center'}
+library(visdat)
+vis_miss(data)
+```
+
+
+---
+class:inverse
+
+# Data Wrangling
 
 
 ```{r Wrangle}
@@ -159,6 +171,7 @@ leaflet(day_change) %>% addTiles() %>%
                                   "Date:", day_change$date,"<br>",
                                   "Hour:", day_change$hour,"<br>",
                                   "Minute:", day_change$mm))
+
 ```
 
 
@@ -183,7 +196,10 @@ ggplot(weather, aes(
   theme_dark()+
   scale_color_viridis_c(option = "B")+
   facet_grid(.~ description) + 
-  theme(axis.text.x = element_text(angle = 90))
+  theme(axis.text.x = element_text(angle = 90),panel.background = element_rect(fill = "pink",
+                                colour = "pink",
+                                size = 0.5, linetype = "solid"),
+        panel.border = element_rect(colour = "black", fill=NA, size=2))
 ```
 
 --
@@ -191,6 +207,32 @@ ggplot(weather, aes(
 - We can observe that there is similarity in temperature across the sensors. Only the sensor at 87 and 89 Grattan Street, Carlton has a significant variance from 3/121 Grattan Street, Carlton and other sensors on Grattan St. and Pelam St have similar weather during all times.
 
 ---
+
+# 
+
+```{r daily-point,fig.height=4, fig.width=10, fig.align='center',echo=FALSE}
+grouped_date <- selected_date %>% 
+  select(description,hour,date,temp) %>%  
+  group_by(hour,description,date) %>% 
+  summarise(avg = mean(temp))
+
+ggplot(grouped_date, aes(
+  x= hour,
+  y = avg,
+  color = avg
+)) +
+  geom_point() +
+  labs(x = "Hour of the day", y = "Temperature(°C)",color = "Temperature(°C)")+
+  theme_dark()+
+  scale_color_viridis_c(option = "B")+
+  facet_wrap(~ description,nrow = 5) + 
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+
+
+---
+
 class:inverse
 
 # <span style="color:brown">Observations</span>
