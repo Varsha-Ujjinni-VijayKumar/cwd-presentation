@@ -146,7 +146,7 @@ ggplot(avg_weather,aes(
   fill = description
 )) +
   geom_col()+
-  geom_text(label = round(avg_weather$avg,2), hjust = 1.5)+ 
+  geom_text(label = paste(round(avg_weather$avg,2),"°C"), hjust = 1.5)+ 
   coord_flip()+
   theme(axis.text.y = element_blank())+
   labs(x = "Average Temperature(°C)", y = "Sensor Location", title= "Average temperatures across Melbourne(°C)",fill = "Sensor Location")
@@ -304,7 +304,7 @@ class: center, middle, inverse
 knitr::include_graphics("https://media.giphy.com/media/QRhtqYeEywJI4/giphy.gif")
 ```
 
-# Thanks!
+# Thanks for your time!
 
 Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
 
@@ -313,7 +313,7 @@ R Packages used:
 [kableExtra](https://CRAN.R-project.org/package=kableExtra) | [leaflet](https://CRAN.R-project.org/package=leaflet) | [lubridate](http://www.jstatsoft.org/v40/i03/) | [viridis](https://CRAN.R-project.org/package=viridis) 
 
 GIF credits - [giphy website](https://giphy.com/) |
-Title Header credits: [Monash](https://www.monashcollege.edu.au/study-areas/business)
+Title Header credits: [Monash](https://www.monashcollege.edu.au/study-areas/business) |
 Image credits: [Melbourne weather](https://www.hostelworld.com/blog/sydney-vs-melbourne/)
 
 ---
