@@ -8,7 +8,7 @@ institute: Monash University
 date: "2020/11/04"
 output:
   xaringan::moon_reader:
-    css: ["styling.css"]
+    css: ["styling.css","rutgers","rladies-fonts"]
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -19,6 +19,27 @@ background-image: url(https://cms.hostelworld.com/hwblog/wp-content/uploads/site
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
+```
+
+```{r libraries, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = FALSE, warning = FALSE)
+library(tidyverse)
+library(kableExtra)
+library(leaflet)
+library(ggthemes)
+library(lubridate)
+library(viridis)
+library(visdat)
+xaringanExtra::use_panelset()
+```
+
+
+```{r ReadData , include=FALSE}
+locations <- read.csv(here::here("/data/Microclimate_Sensor_Locations.csv"))
+readings <- read.csv(here::here("/data/Microclimate_Sensor_Readings.csv")) %>%
+  filter(site_id == c("arc1048", "arc1047", "arc1046", "arc1045", "arc1050"))
+data <- left_join(readings, locations, by = "site_id") %>% select(-id, -location, -type, -last_data) %>%
+  filter(units == "C")
 ```
 
 # Introduction
@@ -34,38 +55,42 @@ The aim of this analysis will seek to understand climate sensor data from Melbou
 The question revolves around the presumption that there might be significant temperature differences even with locations that are in close proximity. This analysis tries to verify the correctness of this presumption.
 
 ---
+.panelset[
+.panel[.panel-name[`r emo::ji("crystal_ball")` About the data]
 
-# Missing values 
+write something
 
-```{r libraries, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,message = FALSE, warning = FALSE)
-library(tidyverse)
-library(kableExtra)
-library(leaflet)
-library(lubridate)
-library(viridis)
+]
+.panel[.panel-name[`r emo::ji("mag")`glimpse]
+.h350.scroll-sign[
+.grid[
+.item[
+```{r echo=FALSE,fig.show="hold", out.width="50%"}
+glimpse(readings)
+```
+]
+.item[
+```{r echo=FALSE,fig.show="hold", out.width="50%"}
+glimpse(readings)
+```
+{{content}}
+]
+]
+]]
+.panel[.panel-name[`r emo::ji("warning")` Missing values] 
+
+```{r echo=FALSE,fig.show="hold", out.width="40%"}
+vis_dat(data)
+vis_miss(data) 
 ```
 
-```{r ReadData , include=FALSE}
-locations <- read.csv(here::here("/data/Microclimate_Sensor_Locations.csv"))
-readings <- read.csv(here::here("/data/Microclimate_Sensor_Readings.csv")) %>%
-  filter(site_id == c("arc1048", "arc1047", "arc1046", "arc1045", "arc1050"))
-data <- left_join(readings, locations, by = "site_id") %>% select(-id, -location, -type, -last_data) %>%
-  filter(units == "C")
-```
-
-
-```{r echo=FALSE,fig.height=5, fig.width=10, fig.align='center'}
-library(visdat)
-vis_miss(data)
-```
-
+- # add desc 
+]]
 
 ---
 class:inverse
 
-# Data Wrangling
-
+# `r emo::ji("books")` Data Wrangling
 
 ```{r Wrangle}
 data <- left_join(readings, locations, by = "site_id") %>% select(-id, -location, -type, -last_data) %>%
@@ -98,9 +123,8 @@ day_change <- day_date %>%
 --
 
 - As our approach tries to answer this question through the comparison of temperatures across the five sensor locations and for particular time of day, it was necessary to calculate the average temperature and separate the `local_time` column into `date`, `hour`, and `mm::ss`
-
-
 ---
+
 class:inverse
 
 # Average Temp Comparison
@@ -169,13 +193,14 @@ ggplot(weather, aes(
 )) +
   geom_point() +
   labs(x = "Date", y = "Temperature(°C)",color = "Temperature(°C)")+
-  theme_dark()+
+  theme_hc(style = "darkunica")+
   scale_color_viridis_c(option = "B")+
   facet_grid(.~ description) + 
-  theme(axis.text.x = element_text(angle = 90), panel.background = element_rect(fill = "pink3",
-                                colour = "black",
-                                size = 0.5, linetype = "solid"),
-        panel.border = element_rect(colour = "black", fill=NA, size=2))
+  theme(axis.text.x = element_text(angle = 90,color = "white"), 
+        panel.border = element_rect(colour = "black", fill=NA, size=2),
+        axis.text.y = element_text(color = "white"),
+        axis.title.x = element_text(color = "white"),
+        axis.title.y = element_text(color = "white"))
 ```
 
 --
@@ -226,8 +251,9 @@ ggplot(grouped_date, aes(
 )) +
   geom_point(size = 3) +
   labs(x = "Hour of the day", y = "Temperature(°C)",color = "Temperature(°C)")+
-  theme_gray()+
+  theme_economist()+
   scale_color_viridis_c(option = "B")+
+  theme(legend.position = "right")+
   facet_wrap(~ description, nrow = 5)
 ```
 
@@ -241,19 +267,19 @@ class:inverse
 
 # <span style="color:brown">Observations</span>
 
-- The temperatures across different sensor locations in the data vary and we can observe a range of averages even across the same Street.
+- The temperatures across different sensor locations in the data vary and we can observe a **range of averages even across the same Street**.
 
 --
 
-- The maximum average temperature is observed at 87 and 89 Grattan Street, Carlton while the minimum average temperature is observed at 3/121 Grattan Street, Carlton. These two sesnsors are located on the same street (Grattan St). They are only a few blocks away and we can still observe significant changes in temperature.
+- The **maximum average temperature is observed at 87 and 89 Grattan Street, Carlton** while the **minimum average temperature is observed at 3/121 Grattan Street, Carlton**. These two sensors are located on the same street (Grattan St). They are only a few blocks away and we can still observe significant changes in temperature.
 
 --
 
-- Keeping in mind the different temperatures within such close proximity, it can be safely assumed that temperatures vary significantly within Melbourne.
+- Keeping in mind the different temperatures within such close proximity, it can be safely assumed that **temperatures vary significantly within Melbourne**, if we consider more sensors.
 
 --
 
-- Melbourne as a whole cannot be classified to have a certain type of climate all throughout consistently. There is a presence of microclimate within Melbourne.
+- Melbourne as a whole cannot be classified to have a certain type of climate all throughout consistently. **There is a presence of microclimate within Melbourne**.
 
 --
 
@@ -273,5 +299,18 @@ R Packages used:
 [kableExtra](https://CRAN.R-project.org/package=kableExtra) | [leaflet](https://CRAN.R-project.org/package=leaflet) | [lubridate](http://www.jstatsoft.org/v40/i03/) | [viridis](https://CRAN.R-project.org/package=viridis) 
 
 GIF credits - [giphy website](https://giphy.com/) |
-Title Header credits: [Monash](https://www.monash.edu/academicpromotion)
+Title Header credits: [Monash](https://www.monashcollege.edu.au/study-areas/business)
 Image credits: [Melbourne weather](https://www.hostelworld.com/blog/sydney-vs-melbourne/)
+
+---
+class: middle, center
+
+```{r echo=FALSE}
+knitr::include_graphics("https://images-cdn.9gag.com/photo/5498693_700b.jpg")
+```
+
+
+# Q&A Time 
+
+
+.footnote[Image credits: https://9gag.com/gag/5498693]

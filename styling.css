@@ -1,6 +1,6 @@
 .title-slide {
 	background-color: #fff;
-  background-image: url(https://www.monash.edu/__data/assets/image/0007/1021399/geometric-gradient-blue-white-pink-banner.jpg);
+  background-image: url(https://www.monashcollege.edu.au/__data/assets/image/0007/755953/Monash-College-Banner-Business.jpg);
 	background-position: center top 20px;
 	background-size: 100%;
 	border-bottom: 0px solid  #522D80;
@@ -18,4 +18,8 @@ element.style{
 .hljs-github .hljs{
     height: 200px;
     overflow-y: auto
+}
+
+.remark-slide-content{
+    font-size: 18px;
 }
