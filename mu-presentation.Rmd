@@ -65,6 +65,11 @@ This data was retrieved from [City of Melbourne - Open Data](https://data.melbou
 - [Sensor Readings](https://data.melbourne.vic.gov.au/Environment/Microclimate-Sensor-Readings/u4vh-84j8?src=featured_banner
 ) 
 
+```{r echo=FALSE}
+knitr::include_graphics("2020-11-03.png")
+```
+
+
 ]
 .panel[.panel-name[`r emo::ji("mag")`glimpse]
 .h350.scroll-sign[
@@ -255,13 +260,14 @@ ggplot(grouped_date, aes(
   y = avg,
   color = avg
 )) +
-  geom_point(size = 3) +
+  geom_point(size = 4)+
   labs(x = "Hour of the day", y = "Temperature(°C)",color = "Temperature(°C)")+
   theme_economist()+
   scale_color_viridis_c(option = "B")+
   theme(legend.position = "right",
         axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)),
-        axis.title.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)))+
+        axis.title.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)),
+        axis.text.y = element_blank())+
   facet_wrap(~ description, nrow = 5)
 ```
 
