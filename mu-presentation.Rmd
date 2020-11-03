@@ -58,7 +58,12 @@ The question revolves around the presumption that there might be significant tem
 .panelset[
 .panel[.panel-name[`r emo::ji("crystal_ball")` About the data]
 
-write something
+This data was retrieved from [City of Melbourne - Open Data](https://data.melbourne.vic.gov.au/) and consists of two main datasets as follows:
+
+- [Locations of the Sensors](https://data.melbourne.vic.gov.au/Environment/Microclimate-Sensor-Locations/irqv-hjr4
+)
+- [Sensor Readings](https://data.melbourne.vic.gov.au/Environment/Microclimate-Sensor-Readings/u4vh-84j8?src=featured_banner
+) 
 
 ]
 .panel[.panel-name[`r emo::ji("mag")`glimpse]
@@ -71,7 +76,7 @@ glimpse(readings)
 ]
 .item[
 ```{r echo=FALSE,fig.show="hold", out.width="50%"}
-glimpse(readings)
+glimpse(locations)
 ```
 {{content}}
 ]
@@ -84,7 +89,7 @@ vis_dat(data)
 vis_miss(data) 
 ```
 
-- # add desc 
+- We make use of the visdat package to visualize the joined locations and readings datasets. Since there is a presence of 'NA' in **vis_dat**, we check missing data using **vis_miss** to check for missing values. Since the missing values are < 0.1%, it is safe to discard them for use with **na.omit()**. We use this refined data that is full and consistent for our analysis.
 ]]
 
 ---
@@ -200,7 +205,8 @@ ggplot(weather, aes(
         panel.border = element_rect(colour = "black", fill=NA, size=2),
         axis.text.y = element_text(color = "white"),
         axis.title.x = element_text(color = "white"),
-        axis.title.y = element_text(color = "white"))
+        axis.title.y = element_text(color = "white"), panel.background = element_rect(
+          fill = "grey", color = "black", size = .5, linetype = "solid"))
 ```
 
 --
@@ -253,13 +259,15 @@ ggplot(grouped_date, aes(
   labs(x = "Hour of the day", y = "Temperature(°C)",color = "Temperature(°C)")+
   theme_economist()+
   scale_color_viridis_c(option = "B")+
-  theme(legend.position = "right")+
+  theme(legend.position = "right",
+        axis.title.y = element_text(margin = margin(t = 0, r = 10, b = 0, l = 0)),
+        axis.title.x = element_text(margin = margin(t = 0, r = 0, b = 10, l = 0)))+
   facet_wrap(~ description, nrow = 5)
 ```
 
 --
 
-* The above plot shows the average temperature over a single day, 20 Dec 2019 for each of the 5 sensor locations. If there is noticeable change in temperature over the same hour of the day, it goes to show that some places have a significantly different weather compared to other locations. This points at microclimate patterns in different locations of Melbourne.
+- The above plot shows the average temperature over a single day, 20 Dec 2019 for each of the 5 sensor locations. If there is noticeable change in temperature over the same hour of the day, it goes to show that some places have a significantly different weather compared to other locations. This points at microclimate patterns in different locations of Melbourne.
 
 ---
 

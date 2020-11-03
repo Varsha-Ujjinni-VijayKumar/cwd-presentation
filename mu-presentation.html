@@ -7,8 +7,6 @@
     <meta name="author" content="Varsha Ujjinni Vijay Kumar" />
     <link href="libs/remark-css/rutgers.css" rel="stylesheet" />
     <link href="libs/remark-css/rladies-fonts.css" rel="stylesheet" />
-    <link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
-    <script src="libs/anchor-sections/anchor-sections.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
     <script src="libs/htmlwidgets/htmlwidgets.js"></script>
@@ -63,7 +61,12 @@ The question revolves around the presumption that there might be significant tem
 .panelset[
 .panel[.panel-name[🔮 About the data]
 
-write something
+This data was retrieved from [City of Melbourne - Open Data](https://data.melbourne.vic.gov.au/) and consists of two main datasets as follows:
+
+- [Locations of the Sensors](https://data.melbourne.vic.gov.au/Environment/Microclimate-Sensor-Locations/irqv-hjr4
+)
+- [Sensor Readings](https://data.melbourne.vic.gov.au/Environment/Microclimate-Sensor-Readings/u4vh-84j8?src=featured_banner
+) 
 
 ]
 .panel[.panel-name[🔍glimpse]
@@ -86,15 +89,14 @@ write something
 .item[
 
 ```
-## Rows: 268,847
-## Columns: 7
-## $ id         &lt;int&gt; 4, 9, 13, 18, 23, 27, 32, 41, 46, 50, 55, 60, 65, 70, 75...
-## $ site_id    &lt;chr&gt; "arc1045", "arc1045", "arc1046", "arc1046", "arc1046", "...
-## $ sensor_id  &lt;chr&gt; "0a.EPA-1h.PKIND", "0b.EPA-1h.PKIND", "0a.EPA-1h", "0b.E...
-## $ value      &lt;dbl&gt; 1.00, 1.00, 4.40, 21.10, 14.83, 4.20, 19.00, 5.20, 22.70...
-## $ local_time &lt;chr&gt; "2019/11/15 09:00:00 AM", "2019/11/15 09:00:00 AM", "201...
-## $ type       &lt;chr&gt; "PM2.5-EPA-1h-PKIND", "PM10-EPA-1h-PKIND", "PM2.5-EPA-1h...
-## $ units      &lt;chr&gt; "0/1", "0/1", "ug/m^3", "ug/m^3", "C", "ug/m^3", "ug/m^3...
+## Rows: 5
+## Columns: 6
+## $ site_id     &lt;chr&gt; "arc1048", "arc1047", "arc1046", "arc1045", "arc1050"
+## $ description &lt;chr&gt; "141 Grattan Street, Carlton", "Corner of Pelham and Le...
+## $ last_data   &lt;chr&gt; "2020/10/30 02:00:01 PM", "2020/10/30 02:00:01 PM", "20...
+## $ latitude    &lt;dbl&gt; -37.80058, -37.80230, -37.80052, -37.80079, -37.80063
+## $ longitude   &lt;dbl&gt; 144.9646, 144.9609, 144.9641, 144.9665, 144.9651
+## $ location    &lt;chr&gt; "POINT (144.964635 -37.800575)", "POINT (144.960923 -37...
 ```
 {{content}}
 ]
@@ -104,7 +106,7 @@ write something
 
 &lt;img src="mu-presentation_files/figure-html/unnamed-chunk-3-1.png" width="40%" /&gt;&lt;img src="mu-presentation_files/figure-html/unnamed-chunk-3-2.png" width="40%" /&gt;
 
-- # add desc 
+- We make use of the visdat package to visualize the joined locations and readings datasets. Since there is a presence of 'NA' in **vis_dat**, we check missing data using **vis_miss** to check for missing values. Since the missing values are &lt; 0.1%, it is safe to discard them for use with **na.omit()**. We use this refined data that is full and consistent for our analysis.
 ]]
 
 ---
@@ -167,8 +169,8 @@ class:inverse
 
 # Location of the Sensors
 
-<div id="htmlwidget-974a67b6f557112475af" style="width:700px;height:200px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-974a67b6f557112475af">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[-37.800575,-37.8023,-37.800524,-37.800793,-37.800629],[144.964635,144.960923,144.964122,144.966492,144.965052],{"icon":"cloud","markerColor":"yellow","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 15.3 °C","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 15.46 °C","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 15.19 °C","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 16.22 °C","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 14.78 °C"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-41aaeffa499941ef513c" style="width:700px;height:200px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-41aaeffa499941ef513c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[-37.800575,-37.8023,-37.800524,-37.800793,-37.800629],[144.964635,144.960923,144.964122,144.966492,144.965052],{"icon":"cloud","markerColor":"yellow","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 15.3 °C","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 15.46 °C","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 15.19 °C","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 16.22 °C","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 14.78 °C"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
 
 - It is evident from the map that the sensors are located very close to each other/close in proximity. The maximum temperature Between 87 and 89 Grattan Street, Carlton is very close to other places but the temperature varies quite significantly keeping in mind how close they are on the same street.
 
@@ -189,8 +191,8 @@ class:inverse
 
 # Temperature for a day
 
-<div id="htmlwidget-18c550d781eafc1926b0" style="width:700px;height:200px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-18c550d781eafc1926b0">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[-37.800575,-37.800629,-37.800793,-37.8023,-37.800524],[144.964635,144.965052,144.966492,144.960923,144.964122],{"icon":"cloud","markerColor":"yellow","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 27.2 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 26.9 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 29.02 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 28.28 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 27.98 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-cba14c0393bbb3d2cb0f" style="width:700px;height:200px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cba14c0393bbb3d2cb0f">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addAwesomeMarkers","args":[[-37.800575,-37.800629,-37.800793,-37.8023,-37.800524],[144.964635,144.965052,144.966492,144.960923,144.964122],{"icon":"cloud","markerColor":"yellow","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Location: 141 Grattan Street, Carlton <br> Average Temperature: 27.2 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: 3/121 Grattan Street, Carlton <br> Average Temperature: 26.9 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Between 87 and 89 Grattan Street, Carlton <br> Average Temperature: 29.02 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Corner of Pelham and Leicester Streets, Carlton <br> Average Temperature: 28.28 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15","Location: Corner of Swanston and Grattan Streets, Carlton <br> Average Temperature: 27.98 °C <br> Date: 2019/12/20 <br> Hour: 01 <br> Minute: 15"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[-37.8023,-37.800524],"lng":[144.960923,144.966492]}},"evals":[],"jsHooks":[]}</script>
 
 
 - Taking just one day in particular for showing evidence of microclimate is more promising. Hence day considered - **2019/12/20** and time considered is: **01**:**15**.
@@ -210,7 +212,7 @@ class:inverse
 
 --
 
-* The above plot shows the average temperature over a single day, 20 Dec 2019 for each of the 5 sensor locations. If there is noticeable change in temperature over the same hour of the day, it goes to show that some places have a significantly different weather compared to other locations. This points at microclimate patterns in different locations of Melbourne.
+- The above plot shows the average temperature over a single day, 20 Dec 2019 for each of the 5 sensor locations. If there is noticeable change in temperature over the same hour of the day, it goes to show that some places have a significantly different weather compared to other locations. This points at microclimate patterns in different locations of Melbourne.
 
 ---
 
