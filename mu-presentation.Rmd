@@ -75,11 +75,17 @@ knitr::include_graphics("2020-11-03.png")
 .h350.scroll-sign[
 .grid[
 .item[
+
+- Sensor readings
+
 ```{r echo=FALSE,fig.show="hold", out.width="50%"}
 glimpse(readings)
 ```
 ]
 .item[
+
+- Sensor locations
+
 ```{r echo=FALSE,fig.show="hold", out.width="50%"}
 glimpse(locations)
 ```
